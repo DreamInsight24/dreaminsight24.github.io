@@ -1,11 +1,695 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>第一个GitHub网站</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="这里藏匿着理想">
+    <meta name="author" content="DreamInsight24">
+    <title>DreamInsight | 个人网站</title>
+    <!-- Google Fonts + Font Awesome CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ===== 全局样式 & 响应式布局 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background: linear-gradient(145deg, #f9fafc 0%, #f1f5f9 100%);
+            color: #1e293b;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 导航栏毛玻璃效果 */
+        .navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 1rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .logo a {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #334155;
+            transition: 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 4px;
+        }
+
+        section {
+            padding: 5rem 0;
+            scroll-margin-top: 80px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(120deg, #0f172a, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* Hero区域（首屏） */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+            margin-bottom: 1.5rem;
+            transition: transform 0.25s ease;
+        }
+        .avatar:hover {
+            transform: scale(1.02);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #0f172a, #2563eb);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            color: #475569;
+            max-width: 650px;
+            margin-bottom: 1.8rem;
+            font-weight: 500;
+        }
+
+        .hero-desc {
+            color: #334155;
+            max-width: 580px;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-outline {
+            border: 1.5px solid #cbd5e1;
+            background: white;
+            color: #1e293b;
+        }
+
+        .btn-outline:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+            transform: translateY(-2px);
+        }
+
+        /* 关于卡片 */
+        .about-card {
+            background: white;
+            border-radius: 32px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(203, 213, 225, 0.4);
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            color: #334155;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .skills-box {
+            margin-top: 1.2rem;
+        }
+
+        .skills-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: #eef2ff;
+            color: #1e40af;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0.3rem 0.5rem 0.3rem 0;
+            border: 1px solid #cbdff2;
+        }
+
+        /* 项目卡片网格 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            padding: 1.8rem;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.15);
+            border-color: #cbd5e1;
+        }
+
+        .project-icon {
+            font-size: 2.2rem;
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .project-desc {
+            color: #475569;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-badge {
+            background: #f1f5f9;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.8rem;
+            border-radius: 30px;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .project-links a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2563eb;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+
+        .project-links a:hover {
+            color: #1e40af;
+            gap: 10px;
+        }
+
+        /* 联系区域 */
+        .contact-wrapper {
+            background: white;
+            border-radius: 32px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 15px 35px -12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2edff;
+        }
+
+        .contact-email {
+            font-size: 1.2rem;
+            background: #f8fafc;
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            margin: 1rem 0 1.2rem;
+            font-weight: 500;
+        }
+
+        .contact-email i {
+            color: #3b82f6;
+            margin-right: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: #475569;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 55px;
+            height: 55px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: #2563eb;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* 页脚 */
+        footer {
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .btn-group {
+                gap: 0.8rem;
+            }
+            .contact-wrapper {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 20px;
+            }
+            section {
+                padding: 3.5rem 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello World！</h1>
-    <p>个人网站，通过 GitHub Pages 创建。</p>
-    <p>仅做测试</p>
+
+<!-- *********************** 导航栏 *********************** -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- 000004：LOGO文字 / 站点名称（显示在左上角） -->
+        <div class="logo">
+            <a href="#">DrInset's Space</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#projects">项目</a></li>
+            <li><a href="#contact">联系</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <!-- *********************** HERO 首屏区域 *********************** -->
+    <section id="home">
+        <div class="container hero">
+            <!-- 000005：头像图片URL（建议正方形图片，推荐使用在线头像生成或自己的图片链接） -->
+            <img class="avatar" src="images/avatar.jpg" alt="头像"
+                 onerror="this.src='https://ui-avatars.com/api/?background=3b82f6&color=fff&name=User'">
+            <h1>DreamInsight | 啥也不是</h1>
+            <div class="hero-tagline">
+                <i class="fas fa-code"></i> 真的啥也不是
+            </div>
+            <p class="hero-desc">
+                咕咕嘎嘎↓！咕咕嘎嘎↑！咕咕嘎嘎啊啊！！！呃！
+            </p>
+            <div class="btn-group">
+                <a href="#projects" class="btn btn-primary"><i class="fas fa-arrow-down"></i> 查看作品</a>
+                <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> 联系我</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- *********************** 关于 + 技能区域 *********************** -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-user-astronaut"></i> 关于我</h2>
+            <div class="about-card">
+                <div class="about-text">
+                    个人介绍：我是个人
+                </div>
+                <div class="about-text">
+                    教育经历：上过学
+                </div>
+                <div class="skills-box">
+                    <div class="skills-title"><i class="fas fa-cogs"></i> 技术栈 & 工具</div>
+                    <div>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Paradox Language</span>
+                        <span class="skill-tag">IDK</span>
+                        <span class="skill-tag">NULL</span>
+                        <span class="skill-tag">编不下去了</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- *********************** 项目展示区域 *********************** -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-laptop-code"></i> 精选大变</h2>
+            <div class="projects-grid">
+                <!-- ========= 项目卡片 1 ========= -->
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
+                    <h3>CampusHub</h3>
+                    <p class="project-desc">
+                        校园社交
+                    </p>
+                    <div class="tech-stack">
+                        <!-- 000019 / 000020 / 000021：该项目使用的技术栈标签 -->
+                        <span class="tech-badge">Java</span>
+                        <span class="tech-badge">SpringBoot</span>
+                        <span class="tech-badge">Others</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="000022" target="_blank"><i class="fab fa-gitlab"></i> 源码</a>
+                        <!-- 000023：在线预览链接（替换#） -->
+                        <a href="000023" target="_blank"><i class="fas fa-external-link-alt"></i> 预览</a>
+                    </div>
+                </div>
+                <!-- ========= 项目卡片 2 ========= -->
+                <div class="project-card">
+                    <!-- 000024：项目图标  FontAwesome 类名 -->
+                    <div class="project-icon"><i class="fas fa-000024"></i></div>
+                    <!-- 000025：项目名称 -->
+                    <h3>000025</h3>
+                    <!-- 000026：项目描述 -->
+                    <p class="project-desc">
+                        000026
+                    </p>
+                    <div class="tech-stack">
+                        <!-- 000027 / 000028 / 000029：项目技术标签 -->
+                        <span class="tech-badge">000027</span>
+                        <span class="tech-badge">000028</span>
+                        <span class="tech-badge">000029</span>
+                    </div>
+                    <div class="project-links">
+                        <!-- 000030：源码链接 -->
+                        <a href="000030" target="_blank"><i class="fab fa-github"></i> 源码</a>
+                        <!-- 000031：预览链接 -->
+                        <a href="000031" target="_blank"><i class="fas fa-external-link-alt"></i> 预览</a>
+                    </div>
+                </div>
+                <!-- ========= 项目卡片 3 ========= -->
+                <div class="project-card">
+                    <!-- 000032：项目图标 -->
+                    <div class="project-icon"><i class="fas fa-000032"></i></div>
+                    <!-- 000033：项目名称 -->
+                    <h3>000033</h3>
+                    <!-- 000034：项目描述 -->
+                    <p class="project-desc">
+                        000034
+                    </p>
+                    <div class="tech-stack">
+                        <!-- 000035 / 000036 / 000037：项目技术标签 -->
+                        <span class="tech-badge">000035</span>
+                        <span class="tech-badge">000036</span>
+                        <span class="tech-badge">000037</span>
+                    </div>
+                    <div class="project-links">
+                        <!-- 000038：源码链接 -->
+                        <a href="000038" target="_blank"><i class="fab fa-github"></i> 源码</a>
+                        <!-- 000039：预览链接 -->
+                        <a href="000039" target="_blank"><i class="fas fa-external-link-alt"></i> 预览</a>
+                    </div>
+                </div>
+            </div>
+            <!-- 更多作品提示 -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <!-- 000040：GitHub主页链接（可引导访问更多项目） -->
+                <p style="color: #4b5563;">更多作品 → 欢迎关注我的 <a href="000040" style="color:#2563eb;">GitHub</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- *********************** 联系区域 *********************** -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-envelope-open-text"></i> 保持联系</h2>
+            <div class="contact-wrapper">
+                <i class="fas fa-paper-plane" style="font-size: 2rem; color: #3b82f6;"></i>
+                <!-- 000041：联系文案（邀请合作或交流的话语） -->
+                <p style="margin: 1rem 0 0.5rem; font-size: 1.1rem;">000041</p>
+                <div class="contact-email">
+                    <i class="fas fa-envelope"></i> <!-- 000042：邮箱地址 -->
+                    000042
+                </div>
+                <!-- 000043：回复时效说明或额外提示 -->
+                <p style="color:#475569; font-size:0.85rem">一定不会回复</p>
+                <div class="social-links">
+                    <!-- 000044：GitHub个人主页链接 -->
+                    <a href="https://github.com/DreamInsight24" class="social-icon" aria-label="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+                    <!-- 000045：Twitter/X链接 -->
+                    <a href="000045" class="social-icon" aria-label="Twitter" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <!-- 000046：领英LinkedIn链接 -->
+                    <a href="000046" class="social-icon" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- 000047：其他平台 (Instagram/或自定义，图标类名可改，例如 fa-instagram) -->
+                    <a href="000047" class="social-icon" aria-label="QQ" target="_blank"><i class="fab fa-qq"></i></a>
+                </div>
+                <!-- 000048：地理位置/城市+工作模式（例如：中国 · 上海 / 远程） -->
+                <p style="margin-top: 1.8rem; font-size: 0.8rem;">
+                    <i class="fas fa-map-marker-alt"></i> 中国 · 江苏
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- *********************** 页脚 *********************** -->
+<footer>
+    <div class="container">
+        <!-- 000049：页脚版权名称（替换为你自己的名字或品牌） -->
+        <p>© 2025 DreamInsight | 个人空间</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://github.com/DreamInsight24" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub </a>
+            &nbsp;|&nbsp;
+            <a href="#">回到顶部 <i class="fas fa-arrow-up"></i></a>
+        </p>
+        <script>
+            // 动态更新页脚年份
+            document.addEventListener("DOMContentLoaded", function() {
+                const yearSpan = document.querySelector("footer p:first-child");
+                if(yearSpan) {
+                    const currentYear = new Date().getFullYear();
+                    yearSpan.innerHTML = `© ${currentYear} DreamInsight | 个人空间`;
+                }
+            });
+        </script>
+        <p style="font-size: 0.7rem; margin-top: 0.3rem;">✨ 响应式设计 | 纯静态网站</p>
+    </div>
+</footer>
+
+<!-- *********************** 平滑滚动 & 导航高亮交互 *********************** -->
+<script>
+    (function() {
+        // 导航栏锚点平滑滚动
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if(targetId && targetId !== '#' && targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        history.pushState(null, null, targetId);
+                    }
+                }
+            });
+        });
+
+        // 首屏按钮（查看作品 -> 滚动到projects区域）
+        const btnPrimary = document.querySelector('.btn-primary');
+        if(btnPrimary && btnPrimary.getAttribute('href') === '#projects') {
+            btnPrimary.addEventListener('click', function(e) {
+                e.preventDefault();
+                const projectsSec = document.querySelector('#projects');
+                if(projectsSec) projectsSec.scrollIntoView({ behavior: 'smooth' });
+                history.pushState(null, null, '#projects');
+            });
+        }
+        // 首屏按钮（联系我 -> 滚动到contact区域）
+        const btnContact = document.querySelector('.btn-outline');
+        if(btnContact && btnContact.getAttribute('href') === '#contact') {
+            btnContact.addEventListener('click', function(e) {
+                e.preventDefault();
+                const contactSec = document.querySelector('#contact');
+                if(contactSec) contactSec.scrollIntoView({ behavior: 'smooth' });
+                history.pushState(null, null, '#contact');
+            });
+        }
+
+        // 根据滚动位置高亮导航菜单
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const scrollPos = window.scrollY + 120;
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if(scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navItems.forEach(item => {
+                item.style.borderBottom = 'none';
+                item.style.color = '#334155';
+                if(item.getAttribute('href') === `#${current}`) {
+                    item.style.borderBottom = '2px solid #3b82f6';
+                    item.style.color = '#1e40af';
+                }
+            });
+        });
+    })();
+</script>
 </body>
 </html>
